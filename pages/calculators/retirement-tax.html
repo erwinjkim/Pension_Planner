@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>퇴직연금 플래너 - 퇴직소득세 계산</title>
+  <link rel="stylesheet" href="../../css/reset.css">
+  <link rel="stylesheet" href="../../css/variables.css">
+  <link rel="stylesheet" href="../../css/layout.css">
+  <link rel="stylesheet" href="../../css/components.css">
+</head>
+<body class="section-calculators" data-nav="calculators" data-base="../../">
+  <main class="content">
+    <a class="back-link" href="../../calculators.html">← 계산기 목록</a>
+    <div class="card card-header">
+      <div class="big-icon">🧾</div>
+      <h2 class="color-red">퇴직소득세 계산기</h2>
+      <p>퇴직급여에 대한 소득세를 계산</p>
+    </div>
+    <div class="card">
+      <h3 style="font-weight:700;margin-bottom:16px">계산 조건 입력</h3>
+      <form id="calc-form">
+        <div class="form-group">
+          <label for="retirementBenefit">퇴직급여 (만원)</label>
+          <input type="number" id="retirementBenefit" inputmode="numeric" placeholder="예: 10000">
+          <div class="error-msg" id="retirementBenefit-error"></div>
+        </div>
+        <div class="form-group">
+          <label for="yearsOfService">근속연수 (년)</label>
+          <input type="number" id="yearsOfService" inputmode="numeric" placeholder="예: 20">
+          <div class="error-msg" id="yearsOfService-error"></div>
+        </div>
+        <div class="form-group">
+          <label for="nonTaxableIncome">비과세소득 (만원)</label>
+          <input type="number" id="nonTaxableIncome" inputmode="numeric" placeholder="예: 0 (장해보상금 등)">
+          <div class="error-msg" id="nonTaxableIncome-error"></div>
+        </div>
+        <button type="submit" class="btn-primary btn-red">퇴직소득세 계산하기</button>
+      </form>
+    </div>
+    <div id="result-area" class="hidden">
+      <div class="result-card bg-green">
+        <h3 class="color-green">🧮 계산 결과</h3>
+        <div id="result-content"></div>
+      </div>
+    </div>
+    <div id="steps-area" class="hidden card">
+      <h3 style="font-weight:700;margin-bottom:16px">상세 계산 과정</h3>
+      <div id="steps-content"></div>
+    </div>
+    <div id="formula-area" class="hidden card">
+      <h3 class="color-blue" style="font-weight:700;margin-bottom:12px">ℹ️ 계산 공식</h3>
+      <p style="font-size:14px;margin-bottom:12px;font-weight:700">퇴직소득세는 8단계 계산 과정을 거쳐 산출</p>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>단계</th><th>계산 공식</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>퇴직급여액</td></tr>
+            <tr><td>2</td><td>퇴직급여액 - 비과세소득 = 퇴직소득금액</td></tr>
+            <tr><td>3</td><td>근속연수공제 = 근속연수에 따른 공제액</td></tr>
+            <tr><td>4</td><td>환산급여 = (퇴직소득금액 - 근속연수공제) × 12 ÷ 근속연수</td></tr>
+            <tr><td>5</td><td>환산급여공제 = 환산급여 구간별 공제</td></tr>
+            <tr><td>6</td><td>과세표준 = 환산급여 - 환산급여공제</td></tr>
+            <tr><td>7</td><td>환산산출세액 = 과세표준 × 세율 - 누진공제액</td></tr>
+            <tr><td>8</td><td>산출세액 = 환산산출세액 ÷ 12 × 근속연수</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <p class="disclaimer">※ 본 계산기는 참고용이며, 실제 세금·연금 수령액과 다를 수 있습니다.</p>
+  </main>
+  <nav class="bottom-nav" id="bottom-nav"></nav>
+  <script src="../../js/utils.js"></script>
+  <script src="../../js/tax.js"></script>
+  <script src="../../js/nav.js"></script>
+  <script src="../../js/calculator-retirement-tax.js"></script>
+</body>
+</html>

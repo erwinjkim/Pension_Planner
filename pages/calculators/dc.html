@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>퇴직연금 플래너 - DC 계산</title>
+  <link rel="stylesheet" href="../../css/reset.css">
+  <link rel="stylesheet" href="../../css/variables.css">
+  <link rel="stylesheet" href="../../css/layout.css">
+  <link rel="stylesheet" href="../../css/components.css">
+</head>
+<body class="section-calculators" data-nav="calculators" data-base="../../">
+  <main class="content">
+    <a class="back-link" href="../../calculators.html">← 계산기 목록</a>
+    <div class="card card-header">
+      <div class="big-icon">🏦</div>
+      <h2 class="color-green">DC 퇴직금 계산기</h2>
+      <p>입사 연봉, 연봉 인상률, 투자수익률을 바탕으로 DC 퇴직금을 계산</p>
+    </div>
+    <div class="card">
+      <h3 style="font-weight:700;margin-bottom:16px">계산 조건 입력</h3>
+      <form id="calc-form">
+        <div class="form-group">
+          <label for="currentSalary">입사 연봉 (만원)</label>
+          <input type="number" id="currentSalary" inputmode="numeric" placeholder="예: 5000">
+          <div class="error-msg" id="currentSalary-error"></div>
+        </div>
+        <div class="form-group">
+          <label for="growthRate">평균 연봉 인상률 (%)</label>
+          <input type="number" id="growthRate" inputmode="decimal" step="0.1" placeholder="예: 2.0">
+          <div class="error-msg" id="growthRate-error"></div>
+        </div>
+        <div class="form-group">
+          <label for="performanceBonus">연평균 성과급 비율 (%)</label>
+          <input type="number" id="performanceBonus" inputmode="numeric" placeholder="예: 30">
+          <div class="error-msg" id="performanceBonus-error"></div>
+        </div>
+        <div class="form-group">
+          <label for="investmentReturn">연간 투자수익률 (%)</label>
+          <input type="number" id="investmentReturn" inputmode="decimal" step="0.1" placeholder="예: 10.0">
+          <div class="error-msg" id="investmentReturn-error"></div>
+        </div>
+        <div class="form-group">
+          <label for="yearsOfService">근속연수 (년)</label>
+          <input type="number" id="yearsOfService" inputmode="numeric" placeholder="예: 30">
+          <div class="error-msg" id="yearsOfService-error"></div>
+        </div>
+        <button type="submit" class="btn-primary btn-green">DC 퇴직연금 계산하기</button>
+      </form>
+    </div>
+    <div id="result-area" class="hidden">
+      <div class="result-card bg-green">
+        <h3 class="color-green">🧮 계산 결과</h3>
+        <div id="result-content"></div>
+      </div>
+    </div>
+    <div id="compare-area" class="hidden card bg-purple">
+      <h3 class="color-purple" style="font-weight:700;margin-bottom:12px">↔️ DC vs DB 퇴직금 비교</h3>
+      <div id="compare-table"></div>
+    </div>
+    <div id="chart-area" class="hidden card bg-indigo">
+      <h3 class="color-indigo" style="font-weight:500;margin-bottom:12px">📈 DC vs DB 퇴직금 비교 그래프</h3>
+      <div class="chart-container"><canvas id="compare-chart"></canvas></div>
+      <div class="chart-legend">
+        <span class="legend-item"><span class="legend-color" style="background:#6CAEDD"></span>DB 퇴직금</span>
+        <span class="legend-item"><span class="legend-color" style="background:#81C784"></span>DC 퇴직금</span>
+      </div>
+    </div>
+    <div class="warning-card">
+      <h3>⚠️ 계산 시 주의사항</h3>
+      <p>• 계산의 단순화를 위해 진급에 따른 연봉의 계단식 상승 없음
+• 임금 피크없이 퇴직전까지 상승한다고 가정
+• 성과급은 월 환산하여 적용: (성과급 / 12)
+• 비과세소득은 0원으로 가정
+• 실제 퇴직금과 상이할 수 있음</p>
+    </div>
+    <p class="disclaimer">※ 본 계산기는 참고용이며, 실제 세금·연금 수령액과 다를 수 있습니다.</p>
+  </main>
+  <nav class="bottom-nav" id="bottom-nav"></nav>
+  <script src="../../js/utils.js"></script>
+  <script src="../../js/tax.js"></script>
+  <script src="../../js/chart.js"></script>
+  <script src="../../js/nav.js"></script>
+  <script src="../../js/calculator-dc.js"></script>
+</body>
+</html>

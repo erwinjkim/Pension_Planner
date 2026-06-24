@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>퇴직연금 플래너</title>
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body class="section-home" data-nav="home" data-base="">
+  <main class="content">
+    <header class="page-header app-bar">
+      <span class="header-icon" aria-hidden="true">💼</span>
+      <h1><span class="logo-light">퇴직연금 </span><span class="logo-bold">플래너</span></h1>
+    </header>
+    <div class="menu-grid">
+      <a class="menu-card home-card color-blue" href="accounts.html">
+        <div class="icon-wrap">🏦</div>
+        <span class="card-title">연금 계좌</span>
+      </a>
+      <a class="menu-card home-card color-green" href="calculators.html">
+        <div class="icon-wrap">🧮</div>
+        <span class="card-title">퇴직연금 계산기</span>
+      </a>
+      <a class="menu-card home-card color-orange" href="products.html">
+        <div class="icon-wrap">📈</div>
+        <span class="card-title">투자 상품</span>
+      </a>
+      <a class="menu-card home-card color-purple" href="portfolios.html">
+        <div class="icon-wrap">🥧</div>
+        <span class="card-title">포트폴리오</span>
+      </a>
+    </div>
+
+    <div class="wide-menu-stack">
+      <a class="wide-menu-card" href="pages/calculators/dc.html">
+        <span class="wide-menu-icon" aria-hidden="true">🏦</span>
+        <div class="wide-menu-text">
+          <h3>DC형 계산기</h3>
+          <p>입사 연봉·인상률·투자수익률로 DC 퇴직금을 빠르게 계산합니다</p>
+        </div>
+      </a>
+      <a class="wide-menu-card accent-tax" href="pages/calculators/retirement-tax.html">
+        <span class="wide-menu-icon" aria-hidden="true">🧾</span>
+        <div class="wide-menu-text">
+          <h3>퇴직소득세 계산</h3>
+          <p>퇴직금에 대한 퇴직소득세와 실효세율을 단계별로 계산합니다</p>
+        </div>
+      </a>
+      <a class="wide-menu-card accent-indigo" href="pages/portfolios/backtest.html">
+        <span class="wide-menu-icon" aria-hidden="true">📉</span>
+        <div class="wide-menu-text">
+          <h3>포트폴리오 백테스트</h3>
+          <p>주식·채권·골드 비중을 조합해 과거 위기 구간에서도 안정적인지 검증합니다</p>
+        </div>
+      </a>
+    </div>
+  </main>
+  <nav class="bottom-nav" id="bottom-nav"></nav>
+  <script src="js/nav.js"></script>
+</body>
+</html>
