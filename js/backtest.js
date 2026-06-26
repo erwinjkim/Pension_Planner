@@ -158,12 +158,35 @@ function renderMetrics(resp) {
   document.getElementById('bt-metrics').innerHTML = html;
 }
 
-function buildMonthlyTicks(nMonths) {
-  var span = (nMonths - 1) / 12;
-  if (span <= 0) return { ticks: [{ year: 0, label: '0년' }], span: 1 / 12 };
-  var step = getChartXTickStep(Math.max(1, Math.round(span)));
+function parseYearMonth(ym) {
+  var p = String(ym || '').split('-');
+  return { y: parseInt(p[0], 10), m: parseInt(p[1], 10) };
+}
+
+function fmtYearMonthLabel(ym) {
+  var d = parseYearMonth(ym);
+  if (!d.y) return '';
+  return d.y + '.' + d.m;
+}
+
+// 실제 연·월을 x축 라벨로 사용. 시작월 기준 i/12(년) 위치에 배치해 데이터와 정렬.
+function buildMonthlyTicks(series) {
+  var n = series.length;
+  if (n <= 1) {
+    var lbl = n === 1 ? fmtYearMonthLabel(series[0].year_month) : '';
+    return { ticks: [{ year: 0, label: lbl }], span: 1 / 12 };
+  }
+  var span = (n - 1) / 12;
+  var stepYears = getChartXTickStep(Math.max(1, Math.round(span)));
+  var stepMonths = Math.max(1, Math.round(stepYears * 12));
   var ticks = [];
-  for (var y = 0; y <= span + 1e-6; y += step) ticks.push({ year: y, label: y + '년' });
+  for (var i = 0; i < n; i += stepMonths) {
+    ticks.push({ year: i / 12, label: fmtYearMonthLabel(series[i].year_month) });
+  }
+  var lastYear = (n - 1) / 12;
+  if (ticks[ticks.length - 1].year !== lastYear) {
+    ticks.push({ year: lastYear, label: fmtYearMonthLabel(series[n - 1].year_month) });
+  }
   return { ticks: ticks, span: span };
 }
 
@@ -176,7 +199,7 @@ function renderChart(resp) {
     contribData.push(series[i].cumulative_contribution / 10000);
     xValues.push(i / 12);
   }
-  var t = buildMonthlyTicks(n);
+  var t = buildMonthlyTicks(series);
   var chartSeries = [
     { color: '#6CAEDD', data: valueData },
     { color: '#81C784', data: contribData }
