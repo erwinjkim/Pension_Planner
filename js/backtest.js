@@ -185,6 +185,10 @@ function buildMonthlyTicks(series) {
   }
   var lastYear = (n - 1) / 12;
   if (ticks[ticks.length - 1].year !== lastYear) {
+    // 끝점(최신월)이 직전 눈금과 너무 가까우면 그 눈금을 빼서 겹침 방지
+    if (ticks.length > 1 && lastYear - ticks[ticks.length - 1].year < stepYears * 0.5) {
+      ticks.pop();
+    }
     ticks.push({ year: lastYear, label: fmtYearMonthLabel(series[n - 1].year_month) });
   }
   return { ticks: ticks, span: span };
