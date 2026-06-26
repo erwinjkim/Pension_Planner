@@ -734,12 +734,16 @@
   font-size: 15px;
   color: var(--md-on-surface);
   text-align: right;
+}
+
+/* 모든 숫자 입력의 up/down 화살표(스피너) 제거 */
+input[type="number"] {
   -moz-appearance: textfield;
   appearance: textfield;
 }
 
-.asset-row .asset-weight::-webkit-outer-spin-button,
-.asset-row .asset-weight::-webkit-inner-spin-button {
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
