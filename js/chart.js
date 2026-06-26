@@ -68,6 +68,9 @@ function drawLineChart(canvasId, xTicks, series, options) {
     return padL + (year / totalYears) * chartW;
   }
 
+  // 월별 등 데이터 포인트별 x(연) 위치를 직접 지정할 때 사용
+  var xValues = options.xValues;
+
   // x labels
   ctx.fillStyle = '#B5B5B5';
   ctx.font = '10px sans-serif';
@@ -85,23 +88,26 @@ function drawLineChart(canvasId, xTicks, series, options) {
     ctx.lineWidth = 2.5;
     ctx.beginPath();
     for (var di = 0; di < data.length; di++) {
-      var cx = yearToX(di + 1);
+      var cx = xValues ? yearToX(xValues[di]) : yearToX(di + 1);
       var cy = padT + chartH - (data[di] / maxY) * chartH;
       if (di === 0) ctx.moveTo(cx, cy);
       else ctx.lineTo(cx, cy);
     }
     ctx.stroke();
 
-    ctx.fillStyle = series[si].color;
-    for (var di2 = 0; di2 < data.length; di2++) {
-      var cx2 = yearToX(di2 + 1);
-      var cy2 = padT + chartH - (data[di2] / maxY) * chartH;
-      ctx.beginPath();
-      ctx.arc(cx2, cy2, 4, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.strokeStyle = '#1E1E1E';
-      ctx.lineWidth = 1.5;
-      ctx.stroke();
+    // 포인트 마커: 데이터가 많으면(월별 등) 생략해 가독성 유지
+    if (!xValues || data.length <= 24) {
+      ctx.fillStyle = series[si].color;
+      for (var di2 = 0; di2 < data.length; di2++) {
+        var cx2 = xValues ? yearToX(xValues[di2]) : yearToX(di2 + 1);
+        var cy2 = padT + chartH - (data[di2] / maxY) * chartH;
+        ctx.beginPath();
+        ctx.arc(cx2, cy2, 4, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = '#1E1E1E';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+      }
     }
   }
 }

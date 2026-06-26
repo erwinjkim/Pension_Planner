@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>퇴직연금 플래너</title>
+  <title>퇴직연금 플래너 - 포트폴리오 백테스트</title>
   <link rel="stylesheet" href="../../css/reset.css">
   <link rel="stylesheet" href="../../css/variables.css">
   <link rel="stylesheet" href="../../css/layout.css">
@@ -12,12 +12,97 @@
 <body class="section-portfolios" data-nav="portfolios" data-base="../../" data-page="backtest">
   <main class="content">
     <a class="back-link" href="../../portfolios.html">← 포트폴리오</a>
-    <div id="detail-content"></div>
+
+    <div class="card card-header">
+      <div class="big-icon">📉</div>
+      <h2>포트폴리오 백테스트</h2>
+      <p>과거 데이터를 기반으로 자산 배분의 수익률을 시뮬레이션</p>
+    </div>
+
+    <div class="card detail-section">
+      <h3>포트폴리오 백테스트란?</h3>
+      <ul>
+        <li>주식·채권·금 등 자산군 비중을 직접 설정</li>
+        <li>실제 과거 시세로 수익률·변동성을 시뮬레이션</li>
+        <li>급락장 구간에서도 자산이 안정적으로 우상향했는지 확인</li>
+        <li>감이 아닌 데이터 기반으로 장기 자산 배분을 점검</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3 style="font-weight:700;margin-bottom:14px">자산 배분 설정</h3>
+
+      <div class="preset-row">
+        <span class="preset-label">프리셋</span>
+        <button type="button" class="preset-btn" data-preset="60-40">주식60·채권40</button>
+        <button type="button" class="preset-btn" data-preset="allweather">올웨더</button>
+        <button type="button" class="preset-btn" data-preset="sp500">S&amp;P500 100%</button>
+      </div>
+
+      <div id="asset-rows" class="asset-rows"></div>
+
+      <div class="asset-toolbar">
+        <button type="button" id="add-asset" class="btn-outline">+ 자산 추가</button>
+        <span id="weight-sum" class="weight-sum">비중 합계: 0%</span>
+      </div>
+
+      <div class="form-group">
+        <label>백테스트 기간</label>
+        <div class="period-row" id="period-row">
+          <button type="button" class="period-btn" data-years="1">1년</button>
+          <button type="button" class="period-btn" data-years="3">3년</button>
+          <button type="button" class="period-btn active" data-years="5">5년</button>
+          <button type="button" class="period-btn" data-years="10">10년</button>
+          <button type="button" class="period-btn" data-years="max">최대</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="initial-amount">초기 투자금 (만원)</label>
+        <input type="text" id="initial-amount" inputmode="numeric" value="1000" placeholder="예: 1000">
+      </div>
+      <div class="form-group">
+        <label for="monthly-contribution">월 적립금 (만원)</label>
+        <input type="text" id="monthly-contribution" inputmode="numeric" value="50" placeholder="예: 50">
+      </div>
+      <div class="form-group">
+        <label for="rebalance">리밸런싱 주기</label>
+        <p class="field-hint">설정한 자산 비중이 시세 변동으로 틀어졌을 때, 주기적으로 원래 비중으로 되돌리는 것</p>
+        <select id="rebalance">
+          <option value="none">안 함</option>
+          <option value="yearly" selected>연 1회</option>
+          <option value="semiannual">반기 1회</option>
+          <option value="quarterly">분기 1회</option>
+        </select>
+      </div>
+
+      <button type="button" id="run-btn" class="btn-primary">백테스트 실행</button>
+      <div id="bt-error" class="bt-error hidden"></div>
+      <div id="bt-loading" class="bt-loading hidden">실제 과거 시세를 불러오는 중입니다. 종목·기간에 따라 최대 30초 정도 걸릴 수 있어요…</div>
+    </div>
+
+    <div id="bt-result" class="hidden">
+      <div class="card">
+        <h3 style="font-weight:700;margin-bottom:12px">📊 시뮬레이션 결과</h3>
+        <div id="bt-metrics" class="metric-grid"></div>
+      </div>
+      <div class="card bg-indigo">
+        <h3 class="color-indigo" style="font-weight:500;margin-bottom:12px">📈 자산 추이</h3>
+        <div class="chart-container"><canvas id="bt-chart"></canvas></div>
+        <div class="chart-legend">
+          <span class="legend-item"><span class="legend-color" style="background:#6CAEDD"></span>포트폴리오 평가금액</span>
+          <span class="legend-item"><span class="legend-color" style="background:#81C784"></span>누적 납입금</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="disclaimer">※ 과거 백테스트 결과는 미래 수익을 보장하지 않습니다. 시세 데이터·세금·수수료는 단순화되어 실제와 다를 수 있습니다.</p>
   </main>
   <nav class="bottom-nav" id="bottom-nav"></nav>
   <script src="../../js/utils.js"></script>
-  <script src="../../js/content-data.js"></script>
-  <script src="../../js/detail.js"></script>
+  <script src="../../js/chart.js"></script>
+  <script src="../../js/api.js"></script>
+  <script src="../../js/etf-list.js"></script>
   <script src="../../js/nav.js"></script>
+  <script src="../../js/backtest.js"></script>
 </body>
 </html>
