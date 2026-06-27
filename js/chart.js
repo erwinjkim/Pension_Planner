@@ -17,10 +17,12 @@ function drawLineChart(canvasId, xTicks, series, options) {
   canvas.style.width = W + 'px';
   canvas.style.height = H + 'px';
   ctx.scale(dpr, dpr);
+  options = options || {};
+  var rotateXLabels = !!options.rotateXLabels;
   var padL = 56;
   var padR = 16;
   var padT = 16;
-  var padB = 36;
+  var padB = rotateXLabels ? 52 : 36;
   var chartW = W - padL - padR;
   var chartH = H - padT - padB;
 
@@ -57,7 +59,6 @@ function drawLineChart(canvasId, xTicks, series, options) {
   ctx.strokeStyle = '#555555';
   ctx.strokeRect(padL, padT, chartW, chartH);
 
-  options = options || {};
   var totalYears = options.totalYears;
   if (!totalYears && xTicks.length > 0) {
     totalYears = xTicks[xTicks.length - 1].year;
@@ -74,11 +75,23 @@ function drawLineChart(canvasId, xTicks, series, options) {
   // x labels
   ctx.fillStyle = '#B5B5B5';
   ctx.font = '10px sans-serif';
-  ctx.textAlign = 'center';
+  var axisBottom = padT + chartH;
   for (var x = 0; x < xTicks.length; x++) {
     var tick = xTicks[x];
     if (!tick || !tick.label) continue;
-    ctx.fillText(tick.label, yearToX(tick.year), H - 8);
+    var lx = yearToX(tick.year);
+    if (rotateXLabels) {
+      // 라벨을 반시계 45도로 기울여 겹침 방지
+      ctx.save();
+      ctx.translate(lx, axisBottom + 12);
+      ctx.rotate(-Math.PI / 4);
+      ctx.textAlign = 'right';
+      ctx.fillText(tick.label, 0, 0);
+      ctx.restore();
+    } else {
+      ctx.textAlign = 'center';
+      ctx.fillText(tick.label, lx, H - 8);
+    }
   }
 
   // lines

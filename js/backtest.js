@@ -209,7 +209,7 @@ function renderChart(resp) {
     { color: '#81C784', data: contribData }
   ];
   requestAnimationFrame(function () {
-    drawLineChart('bt-chart', t.ticks, chartSeries, { totalYears: t.span, xValues: xValues });
+    drawLineChart('bt-chart', t.ticks, chartSeries, { totalYears: t.span, xValues: xValues, rotateXLabels: true });
   });
 }
 

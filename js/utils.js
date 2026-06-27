@@ -69,6 +69,31 @@ function buildResultRow(label, value, colorClass) {
   return '<div class="result-row"><span>' + label + '</span><span class="value ' + (colorClass || '') + '">' + value + '</span></div>';
 }
 
+// 입력칸을 누르면 기존 값을 비워 바로 새로 입력할 수 있게 한다.
+// 아무것도 입력하지 않고 빠져나가면 원래 값을 복원해 실수로 비우는 것을 방지.
+(function enableClearInputOnFocus() {
+  function isClearable(el) {
+    if (!el || el.tagName !== 'INPUT') return false;
+    if (el.readOnly || el.disabled) return false;
+    if (el.getAttribute('data-no-clear') === '1') return false;
+    var t = (el.getAttribute('type') || 'text').toLowerCase();
+    return t === 'number' || t === 'text' || t === 'tel' || t === 'search';
+  }
+  document.addEventListener('focusin', function (e) {
+    var el = e.target;
+    if (!isClearable(el)) return;
+    el.setAttribute('data-prev-value', el.value);
+    if (el.value !== '') el.value = '';
+  });
+  document.addEventListener('focusout', function (e) {
+    var el = e.target;
+    if (!isClearable(el)) return;
+    var prev = el.getAttribute('data-prev-value');
+    if (el.value === '' && prev) el.value = prev;
+    el.removeAttribute('data-prev-value');
+  });
+})();
+
 function buildTable(headers, rows, options) {
   options = options || {};
   var html = '<div class="table-wrap"><table class="data-table"><thead><tr>';
